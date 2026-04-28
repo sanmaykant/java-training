@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -27,10 +28,33 @@ public class BookService {
 
     public Book saveBook(Book book) {
         List<Book> books = getAllBooks();
-        book.setId((long) (books.size() + 1));
+        // Simple ID generation
+        long newId = books.isEmpty() ? 1 : books.get(books.size() - 1).getId() + 1;
+        book.setId(newId);
         books.add(book);
         saveToFile(books);
         return book;
+    }
+
+    public Book updateBook(Long id, Book updatedBook) {
+        List<Book> books = getAllBooks();
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getId().equals(id)) {
+                updatedBook.setId(id);
+                books.set(i, updatedBook);
+                saveToFile(books);
+                return updatedBook;
+            }
+        }
+        return null;
+    }
+
+    public void deleteBook(Long id) {
+        List<Book> books = getAllBooks();
+        List<Book> filteredBooks = books.stream()
+                .filter(book -> !book.getId().equals(id))
+                .collect(Collectors.toList());
+        saveToFile(filteredBooks);
     }
 
     private void saveToFile(List<Book> books) {

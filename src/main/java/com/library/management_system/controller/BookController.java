@@ -25,4 +25,14 @@ public class BookController {
     public Book addBook(@RequestBody Book book) {
         return bookService.saveBook(book);
     }
+
+    @PutMapping("/{id}")
+    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
+        return bookService.updateBook(id, book);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+    }
 }
