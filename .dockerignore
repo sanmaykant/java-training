@@ -1,0 +1,18 @@
+# Ignore build artifacts
+target/
+*.jar
+
+# Ignore local IDE settings
+.settings/
+.project
+.classpath
+.git/
+.gitignore
+
+# Ignore frontend files (The backend Docker doesn't need them)
+frontend/
+node_modules/
+
+# Ignore logs and temp files
+*.log
+tmp/
